@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 import PrivateRouteNotLogin from "@/components/PrivateRouteLogin";
 import Confrim from "@/components/confirm";
 
-function confirmation() {
+function Confirmation() {
   const router = useRouter();
 
   const [modal, setModal] = useState(false);
@@ -210,4 +210,4 @@ function confirmation() {
   );
 }
 
-export default confirmation;
+export default Confirmation;

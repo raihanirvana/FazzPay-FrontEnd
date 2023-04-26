@@ -225,7 +225,7 @@ function Dashboard() {
                       />
                     )}
                     <div className="ml-[15px]">
-                      <p className="w-[124px] overflow-hidden font-bold">
+                      <p className="w-[110px] overflow-hidden font-bold">
                         {data.firstName + " " + data.lastName}
                       </p>
                       <p className="text-sm text-[#7a7886] mt-2">

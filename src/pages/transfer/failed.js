@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useSelector } from "react-redux";
 import PrivateRouteNotLogin from "@/components/PrivateRouteLogin";
 
-function failed() {
+function Failed() {
   const token = useSelector((state) => state.user.data?.data?.token);
   const amount = useSelector((state) => state.transferDetail.amount);
   const firstName = useSelector((state) => state.transferDetail.firstName);
@@ -111,4 +111,4 @@ function failed() {
   );
 }
 
-export default failed;
+export default Failed;

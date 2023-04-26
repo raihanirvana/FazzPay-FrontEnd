@@ -8,7 +8,7 @@ import { signup } from "@/utils/axios/https";
 import PrivateRouteLOGIN from "@/components/PrivateRouteNotLogin";
 import Modal from "@/components/Modal";
 
-function auth() {
+function Auth() {
   const dispatch = useDispatch();
   const [modal, setModal] = useState(false);
   const [mode, setMode] = useState("Login");
@@ -297,4 +297,4 @@ function auth() {
   );
 }
 
-export default auth;
+export default Auth;

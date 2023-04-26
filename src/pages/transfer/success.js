@@ -16,7 +16,7 @@ import {
 } from "@/redux/slices/transfer";
 import { useDispatch } from "react-redux";
 
-function success() {
+function Success() {
   const router = useRouter();
   const dispatch = useDispatch();
   const amount = useSelector((state) => state.transferDetail.amount);
@@ -131,4 +131,4 @@ function success() {
   );
 }
 
-export default success;
+export default Success;
