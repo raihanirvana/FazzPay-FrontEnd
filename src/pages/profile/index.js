@@ -17,6 +17,7 @@ import axios from "axios";
 import PrivateRouteNotLogin from "@/components/PrivateRouteLogin";
 import Modal from "@/components/Modal";
 import Title from "@/utils/wrapper/title";
+import Router from "router";
 
 function Profile() {
   const router = useRouter();
@@ -119,6 +120,9 @@ function Profile() {
   const handleChangePass = async (e) => {
     e.preventDefault();
     const { oldPassword, newPassword, confirmPassword } = formData;
+    if (newPassword !== confirmPassword) {
+      return setError("Paswword Baru dan Konfirmasi Tidak Seragam");
+    }
     const passwordRegex = /^(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/;
     if (!passwordRegex.test(newPassword)) {
       setError(
@@ -136,7 +140,7 @@ function Profile() {
             newPassword: "",
             confirmPassword: "",
           });
-          setMode("profile");
+          router.reload();
           setModal(false);
         }, 700);
         setError(null);
@@ -170,7 +174,7 @@ function Profile() {
       .then((response) => {
         setModal2(true);
         setTimeout(() => {
-          setMode("profile");
+          router.reload();
           setModal2(false);
         }, 700);
         setPin("");
@@ -185,7 +189,7 @@ function Profile() {
     const { noTelp } = formData;
     changePhone(id, token, noTelp)
       .then((response) => {
-        setMode("profile");
+        router.reload();
         console.log(response);
       })
       .catch((err) => {
