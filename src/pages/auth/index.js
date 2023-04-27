@@ -68,6 +68,7 @@ function Auth() {
         setModalsign(true);
         setTimeout(() => {
           setMode("Login");
+          setError(null);
           setModalsign(false);
         }, 700);
         setFormData({
