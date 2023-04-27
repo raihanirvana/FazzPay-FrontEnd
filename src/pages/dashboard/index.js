@@ -19,9 +19,10 @@ function Dashboard() {
     balance: "",
     noTelp: "",
     page: 1,
-    filter: "MONTH",
-    limit: 4,
+    filter: "",
+    limit: 50,
     data: [],
+    totalPage: 0,
   });
   const handleCancle = (e) => {
     e.preventDefault();
@@ -47,7 +48,6 @@ function Dashboard() {
   const handleChangePage = (event) => {
     setFormData({ ...formData, page: parseInt(event.target.value) });
   };
-
   const handlePrevPage = () => {
     setFormData((prevData) => ({
       ...prevData,
@@ -61,38 +61,44 @@ function Dashboard() {
       page: prevData.page + 1,
     }));
   };
-
   const handleHistory = () => {
     setMode("history");
     setFormData({ ...formData, limit: 6 });
   };
-
   useEffect(() => {
     const { filter, page, limit } = formData;
+
     Promise.all([
       getData(id, token),
       getHistoryTransaction(token, page, limit, filter),
     ])
       .then((response) => {
         const [userData, historyData] = response;
-        setFormData({
-          ...formData,
+        const totalPage = Math.ceil(historyData.data.data.length / 6);
+
+        setFormData((prevState) => ({
+          ...prevState,
+          totalPage,
           balance: userData.data.data.balance,
           noTelp: userData.data.data.noTelp,
           data: historyData.data.data,
-        });
+        }));
       })
       .catch((error) => {
         console.log(error);
       });
+
+    router.push(`/dashboard?page=${page}&limit=${limit}&filter=${filter}`);
   }, [formData.filter, formData.page, formData.limit]);
+
   const handleTopUp = (e) => {
     e.preventDefault();
     setModal(true);
   };
-  const handleTransfer = () => {
-    router.push("/transfer");
+  const handleFilterChange = (event) => {
+    setFormData({ ...formData, filter: event.target.value });
   };
+
   return (
     <PrivateRouteNotLogin>
       {modal === true && (
@@ -146,17 +152,23 @@ function Dashboard() {
                     {`${formData.balance.toLocaleString("id-ID", {
                       style: "currency",
                       currency: "IDR",
-                    })}`}
+                    })}`.replace(/(\.|,)0+$|(\.|,)[0-9]+0+$/, "$2")}
                   </p>
-                  <p className="text-[#e0e0e0] text-lg mt-[15px]">
-                    {formData.noTelp
-                      .replace(/^0/, "+62 ")
-                      .replace(/(\d{3})(\d{4})(\d{3})/, "$1-$2-$3")}
-                  </p>
+                  {formData.noTelp === null ? (
+                    <></>
+                  ) : (
+                    <p className="text-[#e0e0e0] text-lg mt-[15px]">
+                      {formData.noTelp
+                        .replace(/^0/, "+62 ")
+                        .replace(/(\d{3})(\d{4})(\d{3})/, "$1-$2-$3")}
+                    </p>
+                  )}
                 </div>
                 <div className="ml-[422px]">
                   <div
-                    onClick={handleTransfer}
+                    onClick={() => {
+                      router.push("/transfer");
+                    }}
                     className="cursor-pointer flex mt-[30px] rounded-xl border border-solid border-white bg-white bg-opacity-20 pr-5 pt-3 pb-3"
                   >
                     <Image
@@ -188,7 +200,9 @@ function Dashboard() {
                 </div>
               </div>
               <div className="bg-white w-[463px] h-[468px] rounded-[25px]">
-                <SimpleBarChart></SimpleBarChart>
+                <div className="mt-[220px] flex justify-center">
+                  <SimpleBarChart className="mt-10"></SimpleBarChart>
+                </div>
               </div>
               <div className="bg-white w-[367px] h-[468px] rounded-[25px] overflow-hidden">
                 <div className="flex">
@@ -202,7 +216,7 @@ function Dashboard() {
                     See all
                   </p>
                 </div>
-                {formData.data.map((data) => (
+                {formData.data.slice(0, 4).map((data) => (
                   <div className="flex mt-8 overflow-hidden" key={data.id}>
                     {data.image === null ? (
                       <Image
@@ -228,25 +242,29 @@ function Dashboard() {
                       <p className="w-[110px] overflow-hidden font-bold">
                         {data.firstName + " " + data.lastName}
                       </p>
-                      <p className="text-sm text-[#7a7886] mt-2">
-                        {data.status}
-                      </p>
+                      {data.type === "send" ? (
+                        <p className="mt-2 text-[#7A7A7A] text-sm">Transfer</p>
+                      ) : data.type === "topup" ? (
+                        <p className="mt-2 text-[#7A7A7A] text-sm">Top Up</p>
+                      ) : (
+                        <p className="mt-2 text-[#7A7A7A] text-sm">Accept</p>
+                      )}
                     </div>
                     {data.type === "send" ? (
-                      <p className="ml-[29px] text-red-500 font-bold">
+                      <p className="ml-[25px] text-red-500 font-bold text-right w-[120px]">
                         -
                         {`${data.amount.toLocaleString("id-ID", {
                           style: "currency",
                           currency: "IDR",
-                        })}`.replace(/\.?0+$/, "")}
+                        })}`.replace(/(\.|,)0+$|(\.|,)[0-9]+0+$/, "$2")}
                       </p>
                     ) : (
-                      <p className="ml-[29px] text-green-400 font-bold">
+                      <p className="ml-[25px] text-green-400 font-bold text-right w-[120px]">
                         +
                         {`${data.amount.toLocaleString("id-ID", {
                           style: "currency",
                           currency: "IDR",
-                        })}`.replace(/\.?0+$/, "")}
+                        })}`.replace(/(\.|,)0+$|(\.|,)[0-9]+0+$/, "$2")}
                       </p>
                     )}
                   </div>
@@ -277,6 +295,7 @@ function Dashboard() {
                   >
                     {formData.page}
                   </p>
+
                   <button
                     className="bg-white drop-shadow-drop pl-1 pr-1 rounded-md text-xs w-[70px]"
                     disabled={formData.data.length < formData.limit}
@@ -286,13 +305,16 @@ function Dashboard() {
                   </button>
                 </div>
                 <div className="ml-[100px]">
-                  <select class="py-2 px-4 border border-gray-400 rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                  <select
+                    className="py-2 px-4 bg-[#3A3D421A]/10 ml-12 border border-gray-400 rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    onChange={handleFilterChange}
+                  >
                     <option disabled selected>
-                      select filter
+                      --select filter--
                     </option>
-                    <option value="option1">Option 1</option>
-                    <option value="option2">Option 2</option>
-                    <option value="option3">Option 3</option>
+                    <option value="WEEK">WEEK</option>
+                    <option value="MONTH">MONTH</option>
+                    <option value="YEAR">YEAR</option>
                   </select>
                 </div>
               </div>
@@ -322,14 +344,24 @@ function Dashboard() {
                     <p className="w-[150px] overflow-hidden font-bold">
                       {data.firstName + " " + data.lastName}
                     </p>
-                    <p className="text-sm text-[#7a7886] mt-2">{data.status}</p>
+                    {data.type === "send" ? (
+                      <p className="mt-[10px] text-[#7A7A7A] text-sm">
+                        Transfer
+                      </p>
+                    ) : data.type === "topup" ? (
+                      <p className="mt-[10px] text-[#7A7A7A] text-sm">Top Up</p>
+                    ) : (
+                      <p className="mt-[10px] text-[#7A7A7A] text-sm">
+                        Accept from {data.firstName} {data.lastName}
+                      </p>
+                    )}
                   </div>
                   {data.type === "send" ? (
-                    <p className="ml-[500px] text-red-500 font-bold">
+                    <p className="ml-[480px] text-red-500 font-bold">
                       -Rp{data.amount}
                     </p>
                   ) : (
-                    <p className="ml-[500px] text-green-400 font-bold">
+                    <p className="ml-[480px] text-green-400 font-bold">
                       +Rp{data.amount}
                     </p>
                   )}

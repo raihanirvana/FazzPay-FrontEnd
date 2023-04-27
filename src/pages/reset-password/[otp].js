@@ -8,11 +8,13 @@ import PrivateRouteLOGIN from "@/components/PrivateRouteNotLogin";
 function Otp() {
   const router = useRouter();
   const [isInputFilled, setIsInputFilled] = useState(false);
+  const [error, setError] = useState(null);
+  const [modal, setModal] = useState(false);
   const [formData, setFormData] = useState({
     newPassword: "",
     confirmPassword: "",
   });
-  const keysChangePassword = router.query;
+  const keysChangePassword = router.query.otp;
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -24,10 +26,18 @@ function Otp() {
   }, [formData]);
 
   const resetPassword = (e) => {
+    if (formData.newPassword !== confirmPassword)
+      return setError("Password Tidak Seragam");
     e.preventDefault();
     const { newPassword, confirmPassword } = formData;
     resetEmail(keysChangePassword, newPassword, confirmPassword)
       .then((response) => {
+        setModal(true);
+        setError(null);
+        setTimeout(() => {
+          setModal(false);
+        }, 1000);
+        router.push("/auth");
         console.log(response);
       })
       .catch((err) => {
@@ -37,6 +47,14 @@ function Otp() {
 
   return (
     <PrivateRouteLOGIN>
+      {modal === true ? (
+        <Modal
+          info="Forgot Password Berhasil"
+          info2="Silahkan Login Kembali"
+        ></Modal>
+      ) : (
+        <></>
+      )}
       <form>
         <div className="flex">
           <Aside className="" />
@@ -95,6 +113,13 @@ function Otp() {
                 name="confirmPassword"
               ></input>
             </div>
+            {error ? (
+              <p className="w-[433px] ml-[50px] mt-5 text-base text-center text-red-500">
+                {error}
+              </p>
+            ) : (
+              <></>
+            )}
             <button
               onClick={resetPassword}
               type="submit"

@@ -73,11 +73,15 @@ function Header() {
             <p className="text-lg font-bold">
               {formData.firstName + " " + formData.lastName}
             </p>
-            <p className="text-xs text-[#3a3d42] text-opacity-90">
-              {formData.noTelp
-                .replace(/^0/, "+62 ")
-                .replace(/(\d{3})(\d{4})(\d{3})/, "$1-$2-$3")}
-            </p>
+            {formData.noTelp === null ? (
+              <></>
+            ) : (
+              <p className="text-xs text-[#3a3d42] text-opacity-90">
+                {formData.noTelp
+                  .replace(/^0/, "+62 ")
+                  .replace(/(\d{3})(\d{4})(\d{3})/, "$1-$2-$3")}
+              </p>
+            )}
           </div>
           <Image
             onClick={handleNotif}
@@ -132,7 +136,7 @@ function Header() {
                     {`${data.amount.toLocaleString("id-ID", {
                       style: "currency",
                       currency: "IDR",
-                    })}`}
+                    })}`.replace(/(\.|,)0+$|(\.|,)[0-9]+0+$/, "$2")}
                   </p>
                 </div>
               </div>

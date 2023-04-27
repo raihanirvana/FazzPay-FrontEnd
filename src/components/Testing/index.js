@@ -14,11 +14,11 @@ const data = {
     },
     {
       day: "Wednesday",
-      total: 0,
+      total: 1000000,
     },
     {
       day: "Thursday",
-      total: 0,
+      total: 100000,
     },
     {
       day: "Friday",
@@ -44,11 +44,11 @@ const data = {
     },
     {
       day: "Wednesday",
-      total: 0,
+      total: 100000,
     },
     {
       day: "Thursday",
-      total: 0,
+      total: 1000000,
     },
     {
       day: "Friday",
@@ -68,9 +68,10 @@ const data = {
 const SimpleBarChart = () => {
   return (
     <BarChart width={400} height={200} data={data.listIncome}>
-      <XAxis dataKey="day" tick={{ fontSize: 12 }} />
+      <XAxis dataKey="day" tick={{ fontSize: 12 }} allowDataOverflow={true} />
       <Tooltip />
-      <Bar dataKey="total" fill="#8884d8" />
+      <CartesianGrid horizontal={false} vertical={false} />
+      <Bar dataKey="total" fill="#8884d8" barSize={20} />
     </BarChart>
   );
 };

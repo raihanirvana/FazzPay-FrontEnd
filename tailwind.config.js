@@ -19,6 +19,15 @@ module.exports = {
         8: "repeat(2, 150px)",
         9: "repeat(5, 150px)",
       },
+      colors: {
+        primary: "#6379F4",
+        dark: "#3A3D42",
+        error: "#FF5B37",
+        greySecondary: "#3A3D4299",
+        greythirty: "#DADADA",
+        greyFont: "#7A7886",
+        greyPrime: "#4D4B57",
+      },
       dropShadow: {
         drop: "0 4px 20px rgba(0, 0, 0, 0.05)",
       },

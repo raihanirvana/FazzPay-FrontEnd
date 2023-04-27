@@ -4,7 +4,6 @@ import { useRouter } from "next/router";
 const Confrim = ({ children }) => {
   const userData = useSelector((state) => state.transferDetail.amount);
   const router = useRouter();
-  console.log(userData);
 
   if (userData === "") {
     // Redirect ke halaman dashboard jika user sudah login

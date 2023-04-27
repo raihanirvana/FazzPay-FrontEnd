@@ -16,7 +16,8 @@ function Confirmation() {
   const [error, setError] = useState(false);
   const [pin, setPin] = useState("");
   const token = useSelector((state) => state.user.data?.data?.token);
-  const amount = useSelector((state) => state.transferDetail.amount);
+  const amount = parseInt(useSelector((state) => state.transferDetail.amount));
+
   const firstName = useSelector((state) => state.transferDetail.firstName);
   const id = useSelector((state) => state.transferDetail.id);
   const image = useSelector((state) => state.transferDetail.image);
@@ -58,7 +59,6 @@ function Confirmation() {
         return transaction(id, amount, note, token);
       })
       .then((transactionResponse) => {
-        console.log(transactionResponse);
         setError(false);
         router.push("/transfer/success");
       })
@@ -67,7 +67,6 @@ function Confirmation() {
         setError(true);
       });
   };
-
   const isDisabled = pin.length < 6;
   return (
     <PrivateRouteNotLogin>
@@ -170,7 +169,7 @@ function Confirmation() {
                 {`${amount.toLocaleString("id-ID", {
                   style: "currency",
                   currency: "IDR",
-                })}`}{" "}
+                })}`.replace(/(\.|,)0+$|(\.|,)[0-9]+0+$/, "$2")}{" "}
               </p>
             </div>
             <div className="ml-[30px] mt-5 w-[790px] h-[92px] drop-shadow-md bg-white rounded-[10px]">
@@ -181,7 +180,7 @@ function Confirmation() {
                 {`${balanceLeft.toLocaleString("id-ID", {
                   style: "currency",
                   currency: "IDR",
-                })}`}{" "}
+                })}`.replace(/(\.|,)0+$|(\.|,)[0-9]+0+$/, "$2")}{" "}
               </p>
             </div>
             <div className="ml-[30px] mt-5 w-[790px] h-[92px] drop-shadow-md bg-white rounded-[10px]">

@@ -9,9 +9,16 @@ import PrivateRouteLOGIN from "@/components/PrivateRouteNotLogin";
 import Modal from "@/components/Modal";
 
 function Auth() {
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const modeParam = searchParams.get("mode");
+    setMode(modeParam === "Signup" ? "Signup" : "Login");
+  }, []);
   const dispatch = useDispatch();
   const [modal, setModal] = useState(false);
+  const [modalsign, setModalsign] = useState(false);
   const [mode, setMode] = useState("Login");
+  const [error, setError] = useState(null);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -45,21 +52,34 @@ function Auth() {
     });
   };
 
-  const handleSignUp = async (event) => {
+  const handleSignUp = (event) => {
     event.preventDefault();
     const { firstName, lastName, email, password } = formData;
-    try {
-      const response = await signup(firstName, lastName, email, password);
-      console.log(response);
-      setMode("Login");
-      router.push("/auth");
-      setFormData({
-        email: "",
-        password: "",
-      });
-    } catch (err) {
-      console.log(err);
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/;
+    if (!passwordRegex.test(password)) {
+      setError(
+        "Password must be at least 6 characters and contain at least 1 uppercase letter."
+      );
+      return;
     }
+    signup(firstName, lastName, email, password)
+      .then((response) => {
+        setModalsign(true);
+        setTimeout(() => {
+          setMode("Login");
+          setModalsign(false);
+        }, 700);
+        setFormData({
+          email: "",
+          password: "",
+        });
+      })
+      .catch((err) => {
+        console.log(err.response.data.msg);
+        if (err.response.data.msg === "Bad Request (No recipients defined)")
+          return setError("Gunakan Email Yang Valid");
+        setError(err.response.data.msg);
+      });
   };
 
   const handleLogin = (event) => {
@@ -69,18 +89,36 @@ function Auth() {
       .unwrap()
       .then((res) => {
         setModal(true);
+        setTimeout(() => {
+          router.push("/makeyourpin");
+          setModal(false);
+        }, 700);
+        setError(false);
         console.log(res);
       })
       .catch((err) => {
         console.log(err);
+        if (err.response.data.msg === "Email / Account not registed")
+          return setError("Email Belum Terdaftar");
+        setError("Email atau Password Anda Salah");
       });
   };
-
+  const handleForgot = () => {
+    router.push("/reset-password");
+  };
   const isDisabled = !(formData.email && formData.password);
   const isDisabledSUP = Object.values(formData).some((value) => value === "");
   return (
     <PrivateRouteLOGIN>
       {modal === true ? <Modal info="Login Berhasil"></Modal> : <></>}
+      {modalsign === true ? (
+        <Modal
+          info="Sign Up Berhasil"
+          info2="Silahkan Cek Emai Anda Untuk Verifikasi E-Mail"
+        ></Modal>
+      ) : (
+        <></>
+      )}
 
       <div className="flex">
         <Aside className="" />
@@ -143,9 +181,19 @@ function Auth() {
                     name="password"
                   ></input>
                 </div>
-                <p className="mt-5 text-sm font-semibold ml-[370px]">
+                <p
+                  onClick={handleForgot}
+                  className="mt-5 text-sm font-semibold ml-[370px] cursor-pointer"
+                >
                   Forgot password?
                 </p>
+                {error ? (
+                  <p className="w-[433px] ml-[50px] mt-5 text-base text-center text-red-500">
+                    {error}
+                  </p>
+                ) : (
+                  <></>
+                )}
                 <button
                   type="submit"
                   className={`w-[433px] ml-[50px] mt-24 ${
@@ -235,7 +283,7 @@ function Auth() {
                       className="h-6"
                     />
                     <input
-                      className="outline-none"
+                      className="outline-none w-[400px]"
                       type="email"
                       placeholder="Enter your e-mail"
                       value={formData.email}
@@ -266,6 +314,13 @@ function Auth() {
                       name="password"
                     ></input>
                   </div>
+                  {error ? (
+                    <p className="w-[433px] ml-[50px] mt-5 text-base text-center text-red-500">
+                      {error}
+                    </p>
+                  ) : (
+                    <></>
+                  )}
                   <button
                     type="submit"
                     className={`w-[433px] ml-[50px] mt-24 ${

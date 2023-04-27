@@ -3,15 +3,18 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { checkEmail } from "@/utils/axios/https";
 import PrivateRouteLOGIN from "@/components/PrivateRouteNotLogin";
+import Modal from "@/components/Modal";
 
 function Checkemail() {
   const [email, setEmail] = useState("");
+  const [error, setError] = useState(null);
+  const [modal, setModal] = useState(false);
 
   useEffect(() => {
     setIsInputFilled(email !== "");
   }, [email]);
   const [isInputFilled, setIsInputFilled] = useState(false);
-  const linkDirect = "http://localhost:3000/reset-password/";
+  const linkDirect = process.env.NEXT_PUBLIC_FORGOT_URL;
   const handleChange = (e) => {
     e.preventDefault();
     setEmail(e.target.value);
@@ -21,15 +24,30 @@ function Checkemail() {
     e.preventDefault();
     checkEmail(email, linkDirect)
       .then((response) => {
+        setModal(true);
         console.log(response);
+        setError(null);
+        setTimeout(() => {
+          setModal(false);
+        }, 1000);
       })
       .catch((err) => {
         console.log(err);
+        setError("Email Tidak Terdaftar");
       });
   };
+
   const isDisabled = !email;
   return (
     <PrivateRouteLOGIN>
+      {modal === true ? (
+        <Modal
+          info="Forgot Password Berhasil"
+          info2="Silahkan Cek Email Anda"
+        ></Modal>
+      ) : (
+        <></>
+      )}
       <form>
         <div className="flex">
           <Aside className="" />
@@ -58,7 +76,7 @@ function Checkemail() {
                 className="h-6"
               />
               <input
-                className="outline-none"
+                className="outline-none w-[433px]"
                 type="email"
                 placeholder="Enter your email"
                 value={email}
@@ -66,6 +84,13 @@ function Checkemail() {
                 name="email"
               ></input>
             </div>
+            {error ? (
+              <p className="w-[433px] ml-[50px] mt-5 text-base text-center text-red-500">
+                {error}
+              </p>
+            ) : (
+              <></>
+            )}
             <button
               onClick={handleCheck}
               type="submit"

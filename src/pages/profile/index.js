@@ -15,9 +15,13 @@ import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
 import axios from "axios";
 import PrivateRouteNotLogin from "@/components/PrivateRouteLogin";
+import Modal from "@/components/Modal";
+import { set } from "lodash";
 
 function Profile() {
   const router = useRouter();
+  const [error, setError] = useState(null);
+  const [blop, setBlop] = useState(null);
   const [isPassFilled, setIsPassFilled] = useState(false);
   const [previousFormData, setPreviousFormData] = useState({});
   const [upload, setUpload] = useState(false);
@@ -53,7 +57,6 @@ function Profile() {
 
   useEffect(() => {
     const { oldPassword, newPassword, confirmPassword } = formData;
-    console.log(oldPassword);
     setIsPassFilled(
       oldPassword !== undefined ||
         newPassword !== undefined ||
@@ -77,7 +80,7 @@ function Profile() {
   };
   const handleLog = () => {
     localStorage.removeItem("persist:wallet");
-    router.push("/auth");
+    router.push("/");
     setTimeout(() => {
       window.location.reload();
     }, 300); // tunggu selama 2 detik sebelum memuat ulang halaman
@@ -116,32 +119,60 @@ function Profile() {
   const handleChangePass = async (e) => {
     e.preventDefault();
     const { oldPassword, newPassword, confirmPassword } = formData;
+    const passwordRegex = /^(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/;
+    if (!passwordRegex.test(newPassword)) {
+      setError(
+        "Password must be at least 6 characters and contain at least 1 uppercase letter."
+      );
+      return;
+    }
     changePass(id, token, oldPassword, newPassword, confirmPassword)
       .then((response) => {
-        setMode("profile");
+        setModal(true);
+        setTimeout(() => {
+          setFormData({
+            ...formData,
+            oldPassword: "",
+            newPassword: "",
+            confirmPassword: "",
+          });
+          setMode("profile");
+          setModal(false);
+        }, 700);
+        setError(null);
         console.log(response);
       })
       .catch((err) => {
         console.log(err);
+        setError(err.response.data.msg);
       });
   };
   const handleCheckPIN = async (e) => {
     e.preventDefault();
     checkPIN(pin, token)
       .then((response) => {
-        setMode("pinsuccess");
+        setModal1(true);
+        setTimeout(() => {
+          setMode("pinsuccess");
+          setModal1(false);
+        }, 700);
         setPin("");
         console.log(response);
       })
       .catch((err) => {
         console.log(err);
+        setError("PIN Yang Anda Masukkan Salah!!!");
       });
   };
   const handleChangePIN = async (e) => {
     e.preventDefault();
     makePin(pin, id, token)
       .then((response) => {
-        setMode("profile");
+        setModal2(true);
+        setTimeout(() => {
+          setMode("profile");
+          setModal2(false);
+        }, 700);
         setPin("");
         console.log(response);
       })
@@ -199,7 +230,7 @@ function Profile() {
     const { firstName, lastName } = formData;
     changeName(id, token, firstName, lastName)
       .then((response) => {
-        router.reload();
+        setMode("profile");
         console.log(response);
       })
       .catch((err) => {
@@ -210,9 +241,10 @@ function Profile() {
     setFormData({
       ...formData,
       file: e.target.files[0],
-      testi: URL.createObjectURL(e.target.files[0]),
     });
+    setBlop(URL.createObjectURL(e.target.files[0]));
   };
+
   const onUpload = async () => {
     const { file } = formData;
     if (!file) return;
@@ -230,10 +262,15 @@ function Profile() {
       console.log(error);
     }
   };
-  console.log(isPassFilled);
+  const [modal, setModal] = useState(false);
+  const [modal1, setModal1] = useState(false);
+  const [modal2, setModal2] = useState(false);
   return (
     <PrivateRouteNotLogin>
       <Header />
+      {modal === true ? <Modal info2="Change Password Success"></Modal> : <></>}
+      {modal1 === true ? <Modal info2="Correct Pin"></Modal> : <></>}
+      {modal2 === true ? <Modal info2="Change Pin Sucess"></Modal> : <></>}
       <div className="flex">
         <AsideLogin />
         <div className="w-[850px] ml-[17px] mt-10 rounded-[25px] bg-white">
@@ -242,13 +279,23 @@ function Profile() {
               {upload ? (
                 <>
                   <div className="w-[500px] h-[300px] bg-white drop-shadow-drop left-[600px] top-[350px] absolute">
-                    {formData.testi === null ? (
+                    <p
+                      onClick={() => {
+                        setUpload(false),
+                          setBlop(null),
+                          setFormData({ ...formData, file: null });
+                      }}
+                      className="mt-2 ml-2 cursor-pointer"
+                    >
+                      X
+                    </p>
+                    {blop ? (
                       <Image
-                        src={formData.testi}
+                        src={blop}
                         width={80}
                         height={80}
                         alt="face"
-                        className="m-auto mt-10"
+                        className="m-auto mt-10 w-[80px] h-[80px] object-cover"
                       />
                     ) : (
                       <Image
@@ -572,6 +619,13 @@ function Profile() {
                   onChange={handleChange}
                 ></input>
               </div>
+              {error ? (
+                <p className="w-[433px] m-auto mt-5 text-base text-center text-red-500">
+                  {error}
+                </p>
+              ) : (
+                <></>
+              )}
               <button
                 onClick={handleChangePass}
                 type="submit"
@@ -656,6 +710,13 @@ function Profile() {
                   />
                 ))}
               </div>
+              {error ? (
+                <p className="w-[433px] m-auto mt-5 text-base text-center text-red-500">
+                  {error}
+                </p>
+              ) : (
+                <></>
+              )}
               <button
                 onClick={handleCheckPIN}
                 type="submit"

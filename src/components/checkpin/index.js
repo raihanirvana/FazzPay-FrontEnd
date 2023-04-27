@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 
 function Checkpin({ children }) {
   const pin = useSelector((state) => state.user.data?.data?.pin);
+  console.log(pin);
   const router = useRouter();
 
   if (pin) {

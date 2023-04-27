@@ -21,6 +21,7 @@ import PrivateRouteNotLogin from "@/components/PrivateRouteLogin";
 import Loading from "@/components/loading";
 function UserDetail() {
   const router = useRouter();
+  const [error, setError] = useState(false);
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [much, setMuch] = useState("");
@@ -34,7 +35,7 @@ function UserDetail() {
     noTelp: "",
   });
   const handleAmout = (e) => {
-    setMuch(e.target.value);
+    parseInt(setMuch(e.target.value));
   };
   const handleNote = (e) => {
     setNotes(e.target.value);
@@ -47,7 +48,13 @@ function UserDetail() {
   }, [router.query.dataId]);
 
   const handleSubmit = () => {
-    dispatch(setAmount(much));
+    if (much > balance) {
+      return setError("Saldo Anda Kurang!!!");
+    }
+    if (much <= 1000) {
+      return setError("Minimal Transfer Adalah 1001");
+    }
+    parseInt(dispatch(setAmount(much)));
     dispatch(setNote(notes));
     dispatch(setIds(id));
     dispatch(setImage(formData.image));
@@ -124,7 +131,7 @@ function UserDetail() {
             {`${balance.toLocaleString("id-ID", {
               style: "currency",
               currency: "IDR",
-            })}`}{" "}
+            })}`.replace(/(\.|,)0+$|(\.|,)[0-9]+0+$/, "$2")}{" "}
             Available
           </p>
           <input
@@ -134,6 +141,13 @@ function UserDetail() {
             type="text"
             placeholder="add some notes"
           />
+          {error ? (
+            <p className="w-[433px] m-auto mt-5 text-base text-center text-red-500">
+              {error}
+            </p>
+          ) : (
+            <></>
+          )}
           <button
             onClick={handleSubmit}
             className="w-[170px] h-[57px] ml-[650px] mt-8 text-lg text-white bg-blue-500 rounded-[12px]"

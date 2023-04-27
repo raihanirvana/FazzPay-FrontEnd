@@ -44,13 +44,13 @@ function Transfer() {
       .catch((error) => {
         console.log(error);
       });
+    router.push(`/transfer?page=${page}&limit=${limit}&filter=${search}`);
   }, [formData.search, formData.page, formData.limit, formData.sort]);
   const handleChangePage = (event) => {
     const newPage = parseInt(event.target.value);
     // Mengubah query string pada URL
     router.push(`/transfer?page=${newPage}`);
     setFormData({ ...formData, page: newPage });
-    console.log(newPage);
   };
 
   const handlePrevPage = () => {
@@ -73,7 +73,6 @@ function Transfer() {
       ...prevData,
       search: newSearch,
     }));
-    console.log(newSearch);
   };
 
   return (
@@ -115,7 +114,7 @@ function Transfer() {
               src="/search.svg"
               width={24}
               height={24}
-              className=" bg-[#3A3D421A]/10"
+              className=" bg-[#3A3D421A]/10 w-[100px] p-3"
             />
             <input
               onChange={handleSearch}

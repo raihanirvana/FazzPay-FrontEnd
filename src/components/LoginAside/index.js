@@ -7,13 +7,13 @@ import Modal from "../Modal";
 
 function AsideLogin() {
   const [modal, setModal] = useState(false);
+  const [error, setError] = useState(false);
   const [modall, setModall] = useState(false);
-  const [blue, setBlue] = useState(false);
   const [amount, setAmount] = useState("");
   const token = useSelector((state) => state.user.data?.data?.token);
   const handleLog = () => {
     localStorage.removeItem("persist:wallet");
-    router.push("/auth");
+    router.push("/");
     setTimeout(() => {
       window.location.reload();
     }, 300); // tunggu selama 2 detik sebelum memuat ulang halaman
@@ -24,7 +24,7 @@ function AsideLogin() {
     router.push("/profile");
     setTimeout(() => {
       window.location.reload();
-    }, 500);
+    }, 700);
   };
   const handleTopUp = (e) => {
     e.preventDefault();
@@ -34,7 +34,7 @@ function AsideLogin() {
     e.preventDefault();
     setModal(false);
     setAmount("");
-    setBlue(false);
+    setError(false);
   };
   const handleAmount = (e) => {
     setAmount(e.target.value);
@@ -44,7 +44,7 @@ function AsideLogin() {
     router.push("/dashboard");
     setTimeout(() => {
       window.location.reload();
-    }, 500);
+    }, 700);
   };
   const handleTransfer = (e) => {
     e.preventDefault();
@@ -67,12 +67,13 @@ function AsideLogin() {
       }, 1000);
     } catch (err) {
       console.log(err);
+      setError("Isi No Handphone Anda Terlebih Dahulu!!!");
     }
   };
   const isDisabled = !amount;
   return (
     <>
-      {modall === true ? <Modal info="Top Up Berhasil"></Modal> : <></>}
+      {modall === true ? <Modal info2="Top Up Berhasil"></Modal> : <></>}
       {modal === true && (
         <>
           <div className="fixed inset-0 z-[1] bg-black/80 flex justify-center items-center select-none"></div>
@@ -96,9 +97,15 @@ function AsideLogin() {
                 type="number"
                 value={amount}
                 onChange={handleAmount}
-                className="border border-solid border-[#A9A9A9]/60 w-[437px] mt-[43px] h-[65px]"
+                className="p-2 border border-solid border-[#A9A9A9]/60 w-[437px] mt-[43px] h-[65px]"
               />
             </div>
+            {error ? (
+              <p className="text-center mt-2 text-red-500 text-lg">{error}</p>
+            ) : (
+              <></>
+            )}
+
             <button
               onClick={handletopup}
               type="submit"
@@ -241,7 +248,7 @@ function AsideLogin() {
           />
           <p
             onClick={handleLog}
-            className="text-lg font-bold text-[#3A3D42] text-opacity-80 ml-[23px]"
+            className="text-lg font-bold text-[#3A3D42] text-opacity-80 ml-[23px] cursor-pointer hover:text-blue-500"
           >
             Logout
           </p>
