@@ -204,7 +204,21 @@ function Dashboard() {
                   </div>
                 </div>
                 <div className="bg-white w-[463px] h-[468px] rounded-[25px]">
-                  <div className="mt-[220px] flex justify-center">
+                  <div className="flex">
+                    <Image
+                      width={117}
+                      height={90}
+                      src="in2.svg"
+                      className="ml-[30px] mt-[30px]"
+                    />
+                    <Image
+                      width={117}
+                      height={90}
+                      src="out2.svg"
+                      className="ml-[169px] mt-[30px]"
+                    />
+                  </div>
+                  <div className="mt-[130px] flex justify-center">
                     <SimpleBarChart className="mt-10"></SimpleBarChart>
                   </div>
                 </div>
