@@ -48,7 +48,7 @@ function Header() {
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+  });
   if (loading) return <Loading></Loading>;
   return (
     <>
