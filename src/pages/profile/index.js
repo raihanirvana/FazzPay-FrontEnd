@@ -672,9 +672,8 @@ function Profile() {
                     height={24}
                     className="h-6"
                   />
-                  <p>+62</p>
                   <input
-                    className="outline-none"
+                    className="outline-none pl-2"
                     type="tel"
                     placeholder="Enter your phone number"
                     value={formData.noTelp}
