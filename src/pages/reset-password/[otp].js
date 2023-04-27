@@ -36,7 +36,7 @@ function Otp() {
     }
     resetEmail(keysChangePassword, newPassword, confirmPassword)
       .then((response) => {
-        setModal(true);
+        setModal("Ubah Password Berhasil Silahkan Login");
         setError(null);
         setTimeout(() => {
           setModal(false);
