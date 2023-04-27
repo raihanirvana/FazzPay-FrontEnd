@@ -26,7 +26,7 @@ function LandingPage() {
     <PrivateRouteLOGIN>
       <Title title="Landing Page">
         <main className=" flex flex-col ">
-          <section className=" flex px-[10%] lg:px-[8%] xl:px-[10%] bg-white   relative flex-col hero-home lg:bg-none pb-[11rem] lg:pb-[2rem] ">
+          <section className=" flex px-[10%] lg:px-[8%] xl:px-[10%] bg-[#fafcff]  relative flex-col hero-home lg:bg-none pb-[11rem] lg:pb-[2rem] ">
             <section className=" flex w-full mt-14 justify-between">
               <div>
                 <p className="text-2xl flex justify-center md:text-4xl font-bold font-NunitoSans text-white lg:text-primary">
@@ -138,7 +138,7 @@ function LandingPage() {
               </div>
             </section>
           </section>
-          <section className="bg-white flex w-full px-[10%] lg:px-[8%] xl:px-[10%] gap-10 py-28 justify-center items-center text-center xl:justify-between flex-col xl:flex-row">
+          <section className="bg-[#fafcff] flex w-full px-[10%] lg:px-[8%] xl:px-[10%] gap-10 py-28 justify-center items-center text-center xl:justify-between flex-col xl:flex-row">
             <section className=" flex w-full xl:w-[40%] flex-wrap gap-10 text-center xl:text-start justify-center">
               <p className="  text-dark font-extrabold text-4xl  md:text-[2.75rem] lg:text-[3.3rem] xl:text-6xl leading-[3rem] md:leading-[4.2rem] xl:leading-[93px]  ">
                 100+ <span className=" text-primary ">Trusted </span>Partners.
