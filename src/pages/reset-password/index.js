@@ -15,7 +15,8 @@ function Checkemail() {
     setIsInputFilled(email !== "");
   }, [email]);
   const [isInputFilled, setIsInputFilled] = useState(false);
-  const linkDirect = process.env.NEXT_PUBLIC_FORGOT_URL;
+  // const linkDirect = process.env.NEXT_PUBLIC_FORGOT_URL;
+  const linkDirect = "http://localhost:3000/reset-password";
   const handleChange = (e) => {
     e.preventDefault();
     setEmail(e.target.value);

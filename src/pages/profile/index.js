@@ -230,7 +230,7 @@ function Profile() {
     const { firstName, lastName } = formData;
     changeName(id, token, firstName, lastName)
       .then((response) => {
-        setMode("profile");
+        router.reload();
         console.log(response);
       })
       .catch((err) => {

@@ -28,10 +28,12 @@ function Otp() {
   }, [formData]);
 
   const resetPassword = (e) => {
-    if (formData.newPassword !== confirmPassword)
-      return setError("Password Tidak Seragam");
     e.preventDefault();
     const { newPassword, confirmPassword } = formData;
+    if (newPassword !== confirmPassword) {
+      setError("Password Tidak Seragam");
+      return;
+    }
     resetEmail(keysChangePassword, newPassword, confirmPassword)
       .then((response) => {
         setModal(true);
