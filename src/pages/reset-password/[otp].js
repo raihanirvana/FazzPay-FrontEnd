@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { resetEmail } from "@/utils/axios/https";
 import { useRouter } from "next/router";
 import PrivateRouteLOGIN from "@/components/PrivateRouteNotLogin";
+import Modal from "@/components/Modal";
 
 function Otp() {
   const router = useRouter();
