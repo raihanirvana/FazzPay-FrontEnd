@@ -51,6 +51,6 @@ If you would like to contribute to this project, please send a pull request to t
 
 <img width="500" src="./public/readme/landing.png" alt="Landing page">
 <img width="500" src="./public/readme/login.png" alt="Landing page">
-<img width="500" src="./public/readme/profile.jpg" alt="Landing page">
-<img width="500" src="./public/readme/transfer.jpg" alt="Landing page">
-<img width="500" src="./public/readme/dashboard.jpg" alt="Landing page">
+<img width="500" src="./public/readme/profile.png" alt="Landing page">
+<img width="500" src="./public/readme/transfer.png" alt="Landing page">
+<img width="500" src="./public/readme/dashboard.png" alt="Landing page">
