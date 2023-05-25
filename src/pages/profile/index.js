@@ -17,7 +17,6 @@ import axios from "axios";
 import PrivateRouteNotLogin from "@/components/PrivateRouteLogin";
 import Modal from "@/components/Modal";
 import Title from "@/utils/wrapper/title";
-import Router from "router";
 
 function Profile() {
   const router = useRouter();
