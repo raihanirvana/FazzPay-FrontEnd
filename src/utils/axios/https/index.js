@@ -31,6 +31,11 @@ export const getData = (id, token) => {
   });
 };
 
+export const testt = () => {
+  const url = `https://jsonplaceholder.typicode.com/users`;
+  return axios.get(url);
+};
+
 export const changePass = (
   id,
   token,

@@ -16,7 +16,7 @@
 
 ## Electronic Wallet
 
-Coffee Shop is a web-based application for buying online coffee.
+Electrionic wallet is a website for save electronic money and do some transfer.
 
 ## Build With
 

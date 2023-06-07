@@ -15,13 +15,17 @@ import pp from "../../public/sherina.svg";
 import pp2 from "../../public/jessica.svg";
 import pp3 from "../../public/face.svg";
 import { useRouter } from "next/router";
-import React from "react";
+import React, { useEffect } from "react";
 import Title from "../utils/wrapper/title";
 import PrivateRouteLOGIN from "@/components/PrivateRouteNotLogin";
-
+import { testt } from "@/utils/axios/https";
 function LandingPage() {
   const router = useRouter();
-
+  useEffect(() => {
+    testt().then((response) => {
+      console.log(response[1].name);
+    });
+  }, []);
   return (
     <PrivateRouteLOGIN>
       <Title title="Landing Page">
