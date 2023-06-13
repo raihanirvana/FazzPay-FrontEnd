@@ -31,6 +31,14 @@ Front End for Electronic Wallet
 - [DaisyUI](https://daisyui.com/)
 - etc.
 
+## Features
+
+1. Register
+2. Login
+3. Profile
+4. Transfer
+5. History
+
 ## Getting Started
 
 ### Installation
