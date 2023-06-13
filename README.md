@@ -74,9 +74,9 @@ Front End for Electronic Wallet
 
 ## Project Screenshots:
 
-<img src="https://user-images.githubusercontent.com/109842306/245002840-fb21e587-c7d2-4ada-984c-9f0412884e86.jpg" alt="project-screenshot">
+<img src="https://user-images.githubusercontent.com/83262495/245551108-5207e183-778b-457e-b578-366bbed84748.jpg" alt="project-screenshot">
 
-<img src="https://user-images.githubusercontent.com/109842306/245002856-d424fa4c-a089-45cb-a69e-8091f531b9ff.jpg" alt="project-screenshot">
+<img src="https://user-images.githubusercontent.com/83262495/245552500-0a0504e6-716a-47dd-912c-acdf1037f64d.jpg" alt="project-screenshot">
 
 ## Resources
 
