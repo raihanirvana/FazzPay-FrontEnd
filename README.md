@@ -15,6 +15,7 @@ Front End for Electronic Wallet
 
 - [Table of Contents](#table-of-contents)
 - [Technologies Used](#technologies-used)
+- [Features](#features)
 - [Getting Started](#getting-started)
   - [Installation](#installation)
 - [Project ScreenShoot](#project-screenshots)
