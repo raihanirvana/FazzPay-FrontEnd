@@ -1,56 +1,97 @@
-<div align="center">
+<div align='center' style="text-align: center;">
 
-  <h2 align="center">Electronic Wallet</h2>
+<h1 style="border:0;margin:1rem">Electronic Walet</h1>
 
+Front End for Electronic Wallet
+
+[Demo](https://fazz-pay-front-end.vercel.app) · [Suggestion](mailto:purapuraturtle69@gmail.com)
+
+<hr>
 <br>
-<img src="https://skillicons.dev/icons?i=react,next,javascript,html,css,redux,tailwind,vercel,daisyui" />
 
-  <p align="center">
-    <a href="https://fazz-pay-front-end.vercel.app/">View Demo</a>
-    ·
-    <a href="mailto:raihanirvana13@gmail.com">Report Bug</a>
-    ·
-    <a href="mailto:raihanirvana13@gmail.com">Request Feature</a>
-  </p>
 </div>
 
-## Electronic Wallet
+## Table of Contents
 
-Electrionic wallet is a website for save electronic money and do some transfer.
+- [Table of Contents](#table-of-contents)
+- [Technologies Used](#technologies-used)
+- [Getting Started](#getting-started)
+  - [Installation](#installation)
+- [Project ScreenShoot](#project-screenshots)
+- [Resources](#resources)
+- [Contributors](#contributors)
+- [License](#license)
+- [Suggestion](#suggestion)
 
-## Build With
+## Technologies Used
 
-This application is built using React.js, Next.js, Redux, axios, Lodash, Chart.js, React-Pin-Field, TailwindCSS, and DaisyUI.
+- [NextJS](https://nextjs.org/docs)
+- [Redux](https://redux-toolkit.js.org)
+- [Tailwind](https://tailwindcss.com/)
+- [DaisyUI](https://daisyui.com/)
+- etc.
 
-## Features
+## Getting Started
 
-### Public
+### Installation
 
-- Login
-- Register
-- Forgot Password
-- Transfer
-- Notification
-- Edit Profile
-- Etc
+1. Clone this repo
 
-## How to run the application
+   ```bash
+   git clone https://github.com/raihanirvana/FazzPay-FrontEnd.git
+   ```
 
-To run the application, follow these steps:
+2. Enter the directory
 
-1. Clone this repository to your computer.
-2. Open a terminal in the repository directory and run the `npm install` command to install all required dependencies.
-3. After it finishes, run the `npm run dev` command to run the application.
-4. Open a browser and visit `http://localhost:3000` to see the application.
+   ```bash
+   cd FazzPay-FrontEnd
+   ```
 
-## Contributions
+3. Install all dependencies
 
-If you would like to contribute to this project, please send a pull request to this repository. We greatly appreciate your contributions.
+   ```bash
+   npm install
+   ```
 
-## Documentation
+4. Create .env file
 
-<img width="500" src="./public/readme/landing.png" alt="Landing page">
-<img width="500" src="./public/readme/login.png" alt="Landing page">
-<img width="500" src="./public/readme/profile.png" alt="Landing page">
-<img width="500" src="./public/readme/transfer.png" alt="Landing page">
-<img width="500" src="./public/readme/dashboard.png" alt="Landing page">
+   ```env
+   Backend_URL = [Backend URL]
+   Cloud_URL = [Your Cloud URL]
+   ```
+
+5. Start the local server
+
+   ```bash
+   node index.js
+   ```
+
+   or (if you want auto start if any change in code)
+
+   ```bash
+   npm run dev
+   ```
+
+## Project Screenshots:
+
+<img src="https://user-images.githubusercontent.com/109842306/245002840-fb21e587-c7d2-4ada-984c-9f0412884e86.jpg" alt="project-screenshot">
+
+<img src="https://user-images.githubusercontent.com/109842306/245002856-d424fa4c-a089-45cb-a69e-8091f531b9ff.jpg" alt="project-screenshot">
+
+## Resources
+
+Special thanks to:
+
+- [Vercel](https://vercel.com) - deploying code
+
+## Contributors
+
+Currently, there are no contributors to this project. If you would like to contribute, you can submit a pull request.
+
+## License
+
+This project is licensed under the ISC License
+
+## Suggestion
+
+If you find bugs / find better ways / suggestions you can pull request.
