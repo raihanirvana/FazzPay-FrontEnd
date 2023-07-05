@@ -17,7 +17,7 @@ function Header() {
     lastName: "",
     noTelp: "",
     page: 1,
-    filter: "WEEK",
+    filter: "YEAR",
     limit: 5,
     data: [],
   });
